@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:16 AS builder
+FROM node:17 AS builder
 # ビルドには devDependencies もインストールする必要があるため
 ENV NODE_ENV=development
 WORKDIR /app
@@ -10,7 +10,7 @@ COPY . .
 RUN yarn build
 
 
-FROM node:16-stretch-slim AS runner
+FROM node:17-stretch-slim AS runner
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app
