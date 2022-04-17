@@ -4,7 +4,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FetchOgpUseCase } from 'src/application/useCases/ogp/fetchOgp.useCase';
 import { FetchOgpDto } from 'src/presentation/dto/ogp/fetchOgp.dto';
 
-@ApiTags('Legacy')
+@ApiTags('Ogp')
 @Controller('/ogp')
 export class OgpController {
   constructor(private readonly fetchOgpUseCase: FetchOgpUseCase) {}
