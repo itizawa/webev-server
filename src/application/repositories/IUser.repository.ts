@@ -3,5 +3,5 @@ import { User } from '~/domain/user/User';
 
 @Injectable()
 export abstract class IUserRepository {
-  abstract findOne(username: string): Promise<User>;
+  abstract findOne(username: string): Promise<User | undefined>;
 }
