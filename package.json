@@ -10,6 +10,7 @@
     "dev": "nest start --watch",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "deploy": "nest build && gcloud run deploy --source .",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -28,7 +29,8 @@
     "class-validator": "^0.13.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "superagent": "^7.1.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
