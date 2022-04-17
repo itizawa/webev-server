@@ -25,12 +25,14 @@
     "@nestjs/common": "8.4.4",
     "@nestjs/core": "8.4.4",
     "@nestjs/platform-express": "8.4.4",
+    "@nestjs/swagger": "^5.2.1",
     "cheerio": "1.0.0-rc.10",
     "class-validator": "0.13.2",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "7.5.5",
-    "superagent": "7.1.2"
+    "superagent": "7.1.2",
+    "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
     "@nestjs/cli": "8.2.5",
