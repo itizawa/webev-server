@@ -4,7 +4,7 @@ import { IsUrl } from 'class-validator';
 export class FetchOgpDto {
   @ApiProperty({
     description: '取得する対象のurl',
-    default: 'https://onn-hr.com/',
+    default: 'https://github.com/itizaworld',
   })
   @IsUrl({}, { message: 'urlは正しい形式である必要があります' })
   url: string;
