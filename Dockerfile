@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:17 AS builder
+FROM node:18 AS builder
 # ビルドには devDependencies もインストールする必要があるため
 ENV NODE_ENV=development
 WORKDIR /app
