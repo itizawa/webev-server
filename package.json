@@ -9,7 +9,7 @@
     "start": "node dist/main.js",
     "build": "tsc",
     "dev": "env-cmd -f ./config/.env nodemon -x ts-node -r tsconfig-paths/register src/main.ts",
-    "deploy": "nest build && gcloud run deploy --source .",
+    "deploy": "yarn build && gcloud run deploy --source .",
     "lint": "eslint src/**/**.ts",
     "test": "jest"
   },
