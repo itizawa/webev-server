@@ -1,27 +1,58 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from '~/app.module';
+import express from 'express';
+
+import { Server as httpServer, createServer } from 'http';
+import cors from 'cors';
+// import * as mongoose from 'mongoose';
+// import * as mongoSanitize from 'express-mongo-sanitize';
+import { requestLoggerMiddleware } from '~/middlewares';
+import { setupExpressRoutes } from './presentation/controllers';
 
 /*****************************
  * Main Process              *
  *****************************/
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+export class WebevApp {
+  app: express.Express;
+  port: number;
+  httpServer: httpServer;
 
-  const config = new DocumentBuilder()
-    .setTitle('Webev Server')
-    .setDescription('Webevのバックエンドサーバーです')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  constructor() {
+    this.app = null;
+    this.port = parseInt(process.env.PORT) || 8000;
+    this.httpServer = null;
+  }
 
-  app.useGlobalPipes(new ValidationPipe());
+  async init(): Promise<void> {
+    this.setupExpress();
+    // await this.setupDB();
 
-  app.enableCors();
+    // setup Express Routes
+    this.setupRoutes();
 
-  const port = Number(process.env.PORT) || 8000; // Cloud Run の要件。環境変数PORTで起動するように。
-  await app.listen(port, '0.0.0.0'); // '0.0.0.0' を追加して外部からのアクセスを受け入れる。
+    this.httpServer.listen(this.port, () => {
+      console.log(`Express app listening at http://localhost:${this.port}`);
+    });
+  }
+
+  setupExpress() {
+    this.app = express();
+
+    this.app.use(cors());
+    this.app.use(express.json());
+    // this.app.use(mongoSanitize());
+
+    this.app.use(requestLoggerMiddleware);
+    this.httpServer = createServer(this.app);
+  }
+
+  // setupDB(): Promise<typeof import('mongoose')> {
+  //   const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017/test';
+  //   return mongoose.connect(MONGO_URI);
+  // }
+
+  setupRoutes() {
+    setupExpressRoutes(this.app);
+  }
 }
-bootstrap();
+
+const app = new WebevApp();
+app.init();
