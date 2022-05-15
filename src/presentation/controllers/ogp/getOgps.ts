@@ -18,8 +18,7 @@ export const getOgps = validate(
     const { url } = req.query;
 
     try {
-      const ogp = 'url';
-      return res.status(200).json({ ogp });
+      return res.status(200).json({ ogp: url });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
