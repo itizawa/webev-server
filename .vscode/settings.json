@@ -46,6 +46,7 @@
       "NEXTAUTH",
       "noopener",
       "noreferrer",
+      "ogps",
       "pageview",
       "piyo",
       "prebuild",

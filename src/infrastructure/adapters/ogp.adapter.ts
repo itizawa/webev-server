@@ -1,5 +1,5 @@
-import * as request from 'superagent';
-import * as cheerio from 'cheerio';
+import request from 'superagent';
+import cheerio from 'cheerio';
 import { IOgpAdapter } from 'src/application/adapters/IOgpAdapter';
 
 export class OgpAdapter implements IOgpAdapter {
