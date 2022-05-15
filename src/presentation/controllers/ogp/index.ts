@@ -1,0 +1,1 @@
+export { getOgps } from './getOgps';
