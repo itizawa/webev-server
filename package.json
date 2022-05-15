@@ -36,7 +36,7 @@
     "nodemon": "^2.0.16",
     "prettier": "2.6.2",
     "ts-jest": "27.1.4",
-    "ts-loader": "9.2.8",
+    "ts-loader": "9.2.9",
     "ts-node": "^10.7.0",
     "tsc-alias": "^1.6.7",
     "tsconfig-paths": "^4.0.0",
