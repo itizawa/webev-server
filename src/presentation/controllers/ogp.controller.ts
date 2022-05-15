@@ -22,6 +22,6 @@ export class OgpController {
   async fetchOgp(
     @Query() query: FetchOgpDto,
   ): Promise<{ [key: string]: string }> {
-    return await this.fetchOgpUseCase.fetchOgp(query.url);
+    return await this.fetchOgpUseCase.execute(query.url);
   }
 }
