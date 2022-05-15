@@ -3,7 +3,7 @@ import { validationResult, ValidationChain } from 'express-validator';
 
 /**
  * バリデーションするためのミドルウェア
- * @param validation ValidationChain
+ * @param validations ValidationChain
  * @param callback 成功後に実行する関数
  */
 export const validate = (validations: ValidationChain[], callback) => {

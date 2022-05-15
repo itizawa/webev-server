@@ -10,7 +10,7 @@ export const requestLoggerMiddleware = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
-): void => {
+) => {
   console.info(`${req.method} ${req.originalUrl}`);
   const start = new Date().getTime();
   res.on('finish', () => {
