@@ -27,7 +27,7 @@ export const getOgps = validate(
     }
 
     try {
-      const ogp = fetchOgpUseCase.execute(url);
+      const ogp = await fetchOgpUseCase.execute(url);
       return res.status(200).json({ ogp });
     } catch (error) {
       return res.status(500).json({ message: error.message });
