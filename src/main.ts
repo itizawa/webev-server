@@ -4,6 +4,7 @@ import passport from 'passport';
 import session from 'express-session';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import crypto from 'crypto';
+import rateLimit from 'express-rate-limit';
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -49,6 +50,14 @@ export class WebevApp {
 
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.use(
+      rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+        standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+        legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+      }),
+    );
     // this.app.use(mongoSanitize());
 
     this.app.use(requestLoggerMiddleware);
