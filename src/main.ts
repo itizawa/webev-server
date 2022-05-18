@@ -3,6 +3,7 @@ import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import crypto from 'crypto';
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -112,7 +113,7 @@ export class WebevApp {
 
     this.app.use(
       session({
-        secret: 'secret', //自由に設定　例：require('crypto').randomBytes(8).toString('hex')で生成したランダムな文字列
+        secret: crypto.randomBytes(8).toString('hex'),
         resave: false,
         saveUninitialized: false,
       }),
