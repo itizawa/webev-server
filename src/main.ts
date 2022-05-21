@@ -1,21 +1,17 @@
 import express from 'express';
 
-import passport from 'passport';
-import session from 'express-session';
-import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-import crypto from 'crypto';
 import rateLimit from 'express-rate-limit';
-
-const clientID = process.env.GOOGLE_CLIENT_ID;
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-const callbackURL = process.env.GOOGLE_CALLBACK_URL;
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import crypto from 'crypto';
 
 import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
-// import * as mongoose from 'mongoose';
-// import * as mongoSanitize from 'express-mongo-sanitize';
+import { connect, Mongoose } from 'mongoose';
+import mongoSanitize from 'express-mongo-sanitize';
 import { requestLoggerMiddleware } from '~/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
+import { setupPassport } from './setupPassport';
 
 /*****************************
  * Main Process              *
@@ -24,6 +20,7 @@ export class WebevApp {
   app: express.Express;
   port: number;
   httpServer: httpServer;
+  mongoClient: Mongoose;
 
   constructor() {
     this.app = null;
@@ -33,10 +30,11 @@ export class WebevApp {
 
   async init(): Promise<void> {
     this.setupExpress();
-    // await this.setupDB();
+
+    await this.setupDB();
 
     // setup Express Routes
-    this.setupPassport();
+    setupPassport(this.app);
     this.setupRoutes();
 
     this.httpServer = createServer(this.app);
@@ -48,7 +46,7 @@ export class WebevApp {
   setupExpress() {
     this.app = express();
 
-    this.app.use(cors());
+    this.app.use(cors({ origin: true, credentials: true }));
     this.app.use(express.json());
     this.app.use(
       rateLimit({
@@ -58,103 +56,37 @@ export class WebevApp {
         legacyHeaders: false, // Disable the `X-RateLimit-*` headers
       }),
     );
-    // this.app.use(mongoSanitize());
+    this.app.use(mongoSanitize());
 
     this.app.use(requestLoggerMiddleware);
   }
 
-  // setupDB(): Promise<typeof import('mongoose')> {
-  //   const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017/test';
-  //   return mongoose.connect(MONGO_URI);
-  // }
+  async setupDB() {
+    const mongoUrl = process.env.MONGO_URI;
+    if (!mongoUrl) throw new Error('MONGO_URIがセットされていません');
 
-  setupRoutes() {
-    setupExpressRoutes(this.app);
-  }
-
-  setupPassport() {
-    //セッションに保存
-    passport.serializeUser(function (user: { id: string; name: string }, done) {
-      done(null, { id: user.id, name: user.name });
-    });
-
-    //セッションから保存されたデータを呼び出し
-    passport.deserializeUser(function (
-      user: { id: string; name: string },
-      done,
-    ) {
-      done(null, { id: user.id, name: user.name });
-    });
-
-    // passport.serializeUser((user, done) => {
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   done(null, (user as any).id);
-    // });
-    // passport.deserializeUser(async(id, done) => {
-    //   try {
-    //     const user = await User.findById(id);
-    //     if (user == null) {
-    //       throw new Error('user not found');
-    //     }
-    //     done(null, user);
-    //   }
-    //   catch (err) {
-    //     done(err);
-    //   }
-    // });
-
-    passport.use(
-      new GoogleStrategy(
-        {
-          clientID,
-          clientSecret,
-          callbackURL,
-        },
-        function (accessToken, refreshToken, profile, done) {
-          if (profile) {
-            return done(null, profile);
-          }
-
-          return done(null, false);
-        },
-      ),
-    );
+    this.mongoClient = await connect(mongoUrl);
 
     this.app.use(
       session({
+        rolling: true,
         secret: crypto.randomBytes(8).toString('hex'),
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
+        cookie: {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'develop',
+          maxAge: 1000 * 60 * 60 + 24 * 30, // 30day
+        },
+        store: MongoStore.create({
+          mongoUrl,
+        }),
       }),
     );
-    this.app.use(passport.initialize());
-    this.app.use(passport.session());
+  }
 
-    this.app.get(
-      '/auth/google',
-      passport.authenticate('google', {
-        scope: ['profile', 'email'],
-      }),
-    );
-
-    this.app.get(
-      '/auth/google/callback',
-      passport.authenticate('google', {
-        failureRedirect: '/',
-        session: true,
-      }),
-      function (req, res, next) {
-        console.log(req.user);
-
-        //成功したときの処理
-        req.logIn(req.user, (err) => {
-          if (err) {
-            return next();
-          }
-          return res.redirect('/');
-        });
-      },
-    );
+  setupRoutes() {
+    setupExpressRoutes(this.app);
   }
 }
 
