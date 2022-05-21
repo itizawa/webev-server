@@ -61,8 +61,14 @@ export const setupPassport = (app: Express) => {
       secret: crypto.randomBytes(8).toString('hex'),
       resave: false,
       saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: process.env.DEV !== 'true',
+        maxAge: 1000 * 60 * 60 + 24, //1day
+      },
     }),
   );
+
   app.use(passport.initialize());
   app.use(passport.session());
 
