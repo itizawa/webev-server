@@ -1,0 +1,42 @@
+import { model, models, Model, Schema, Document } from 'mongoose';
+import { IUserRepository } from './IUserRepository';
+
+import { User } from '~/domain/user';
+
+const UserSchema: Schema = new Schema(
+  {
+    username: String,
+    email: String,
+  },
+  {
+    timestamps: true,
+  },
+);
+
+export class UserRepository implements IUserRepository {
+  UserModel: Model<User & Document>;
+
+  constructor() {
+    this.UserModel = models.User || model<User & Document>('User', UserSchema);
+  }
+
+  private convert(user: User): User {
+    return new User({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      createdAt: new Date(user.createdAt),
+      updatedAt: new Date(user.updatedAt),
+    });
+  }
+
+  async findById(id: string): Promise<User> {
+    const user = await this.UserModel.findById(id);
+
+    if (!user) {
+      return null;
+    }
+
+    return this.convert(user);
+  }
+}
