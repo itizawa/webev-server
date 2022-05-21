@@ -1,9 +1,8 @@
 import { Express } from 'express';
 
 import passport from 'passport';
-import session from 'express-session';
+
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-import crypto from 'crypto';
 import {
   FindOrCreateUserUseCase,
   FindUserUseCase,
@@ -54,19 +53,6 @@ export const setupPassport = (app: Express) => {
         return done(null, false);
       },
     ),
-  );
-
-  app.use(
-    session({
-      secret: crypto.randomBytes(8).toString('hex'),
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== 'develop',
-        maxAge: 1000 * 60 * 60 + 24, //1day
-      },
-    }),
   );
 
   app.use(passport.initialize());

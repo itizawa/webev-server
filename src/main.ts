@@ -1,10 +1,13 @@
 import express from 'express';
 
 import rateLimit from 'express-rate-limit';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import crypto from 'crypto';
 
 import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import { connect, Mongoose } from 'mongoose';
 import mongoSanitize from 'express-mongo-sanitize';
 import { requestLoggerMiddleware } from '~/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
@@ -17,6 +20,7 @@ export class WebevApp {
   app: express.Express;
   port: number;
   httpServer: httpServer;
+  mongoClient: Mongoose;
 
   constructor() {
     this.app = null;
@@ -26,6 +30,7 @@ export class WebevApp {
 
   async init(): Promise<void> {
     this.setupExpress();
+
     await this.setupDB();
 
     // setup Express Routes
@@ -56,10 +61,28 @@ export class WebevApp {
     this.app.use(requestLoggerMiddleware);
   }
 
-  setupDB() {
-    const MONGO_URI = process.env.MONGO_URI;
-    if (!MONGO_URI) throw new Error('MONGO_URIがセットされていません');
-    return mongoose.connect(MONGO_URI);
+  async setupDB() {
+    const mongoUrl = process.env.MONGO_URI;
+    if (!mongoUrl) throw new Error('MONGO_URIがセットされていません');
+
+    this.mongoClient = await connect(mongoUrl);
+
+    this.app.use(
+      session({
+        rolling: true,
+        secret: crypto.randomBytes(8).toString('hex'),
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'develop',
+          maxAge: 1000 * 60 * 60 + 24 * 30, // 30day
+        },
+        store: MongoStore.create({
+          mongoUrl,
+        }),
+      }),
+    );
   }
 
   setupRoutes() {
