@@ -4,7 +4,10 @@ import passport from 'passport';
 import session from 'express-session';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import crypto from 'crypto';
-import { FindOrCreateUserUseCase } from './application/useCases/user';
+import {
+  FindOrCreateUserUseCase,
+  FindUserUseCase,
+} from './application/useCases/user';
 import { UserRepository } from './infrastructure/repositories';
 import { User } from './domain/User';
 
@@ -14,35 +17,27 @@ const callbackURL = process.env.GOOGLE_CALLBACK_URL;
 
 const userRepository = new UserRepository();
 
+const findUserUseCase = new FindUserUseCase(userRepository);
 const findOrCreateUserUseCase = new FindOrCreateUserUseCase(userRepository);
 
 export const setupPassport = (app: Express) => {
   //セッションに保存
-  passport.serializeUser(function (user: User, done) {
-    done(null, user);
+  passport.serializeUser((user: Pick<User, 'id'>, done) => {
+    done(null, user.id);
   });
 
   //セッションから保存されたデータを呼び出し
-  passport.deserializeUser(function (user: User, done) {
-    done(null, user);
+  passport.deserializeUser(async (id: string, done) => {
+    try {
+      const user = await findUserUseCase.execute(id);
+      if (user == null) {
+        throw new Error('user not found');
+      }
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
   });
-
-  // passport.serializeUser((user, done) => {
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   done(null, (user as any).id);
-  // });
-  // passport.deserializeUser(async(id, done) => {
-  //   try {
-  //     const user = await User.findById(id);
-  //     if (user == null) {
-  //       throw new Error('user not found');
-  //     }
-  //     done(null, user);
-  //   }
-  //   catch (err) {
-  //     done(err);
-  //   }
-  // });
 
   passport.use(
     new GoogleStrategy(
@@ -51,7 +46,7 @@ export const setupPassport = (app: Express) => {
         clientSecret,
         callbackURL,
       },
-      function (accessToken, refreshToken, profile, done) {
+      function (_accessToken, _refreshToken, profile, done) {
         if (profile) {
           return done(null, profile);
         }
