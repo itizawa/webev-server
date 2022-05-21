@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export class User {
   id: string;
   username: string;
@@ -12,13 +14,16 @@ export class User {
     this.updatedAt = init.updatedAt;
   }
 
-  public static create(params: Optional<User, 'id'>) {
+  public static create(
+    params: Optional<User, 'id' | 'createdAt' | 'updatedAt'>,
+  ) {
     return new User({
-      id: params.id || '1',
+      // 本来生成する場所はdomainに書くべきではない
+      id: params.id || new ObjectId().toString(),
       username: params.username,
       email: params.email,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: params.createdAt || new Date(),
+      updatedAt: updatedAt.createdAt || new Date(),
     });
   }
 }
