@@ -12,7 +12,7 @@ const callbackURL = process.env.GOOGLE_CALLBACK_URL;
 
 import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
-// import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 // import * as mongoSanitize from 'express-mongo-sanitize';
 import { requestLoggerMiddleware } from '~/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
@@ -63,10 +63,10 @@ export class WebevApp {
     this.app.use(requestLoggerMiddleware);
   }
 
-  // setupDB(): Promise<typeof import('mongoose')> {
-  //   const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017/test';
-  //   return mongoose.connect(MONGO_URI);
-  // }
+  setupDB() {
+    const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017/test';
+    return mongoose.connect(MONGO_URI);
+  }
 
   setupRoutes() {
     setupExpressRoutes(this.app);
