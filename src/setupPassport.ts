@@ -77,7 +77,7 @@ export const setupPassport = (app: Express) => {
       failureRedirect: '/',
       session: true,
     }),
-    function (req, res, next) {
+    (req, res, next) => {
       console.log(req.user);
 
       //成功したときの処理
