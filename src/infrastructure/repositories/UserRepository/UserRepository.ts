@@ -13,6 +13,9 @@ const UserSchema: Schema = new Schema(
   },
 );
 
+type UserForDB = Omit<User, 'id'> & {
+  _id: string;
+};
 export class UserRepository implements IUserRepository {
   UserModel: Model<User & Document>;
 
@@ -20,14 +23,27 @@ export class UserRepository implements IUserRepository {
     this.UserModel = models.User || model<User & Document>('User', UserSchema);
   }
 
-  private convert(user: User): User {
+  private convertToDB(user: User): UserForDB {
+    return {
+      ...user,
+      _id: user.id,
+    };
+  }
+
+  private convertFromDB(user: UserForDB): User {
     return new User({
-      id: user.id,
+      id: user._id.toString(),
       username: user.username,
       email: user.email,
       createdAt: new Date(user.createdAt),
       updatedAt: new Date(user.updatedAt),
     });
+  }
+
+  async create(user: User): Promise<User> {
+    return this.convertFromDB(
+      await this.UserModel.create(this.convertToDB(user)),
+    );
   }
 
   async findById(id: string): Promise<User> {
@@ -37,7 +53,7 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    return this.convert(user);
+    return this.convertFromDB(user);
   }
 
   async findByEmail(email: string): Promise<User> {
@@ -47,6 +63,6 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    return this.convert(user);
+    return this.convertFromDB(user);
   }
 }
