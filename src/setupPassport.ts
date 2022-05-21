@@ -6,6 +6,7 @@ import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import crypto from 'crypto';
 import { FindOrCreateUserUseCase } from './application/useCases/user';
 import { UserRepository } from './infrastructure/repositories';
+import { User } from './domain/User';
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -17,13 +18,13 @@ const findOrCreateUserUseCase = new FindOrCreateUserUseCase(userRepository);
 
 export const setupPassport = (app: Express) => {
   //セッションに保存
-  passport.serializeUser(function (user: { id: string; name: string }, done) {
-    done(null, { id: user.id, name: user.name });
+  passport.serializeUser(function (user: User, done) {
+    done(null, user);
   });
 
   //セッションから保存されたデータを呼び出し
-  passport.deserializeUser(function (user: { id: string; name: string }, done) {
-    done(null, { id: user.id, name: user.name });
+  passport.deserializeUser(function (user: User, done) {
+    done(null, user);
   });
 
   // passport.serializeUser((user, done) => {
@@ -84,18 +85,18 @@ export const setupPassport = (app: Express) => {
       session: true,
     }),
     async (req, res, next) => {
-      const user = req.user as {
+      const requestUser = req.user as {
         emails: { value: string }[];
         displayName: string;
       };
 
-      await findOrCreateUserUseCase.execute(
-        user.emails[0].value,
-        user.displayName,
+      const user = await findOrCreateUserUseCase.execute(
+        requestUser.emails[0].value,
+        requestUser.displayName,
       );
 
       //成功したときの処理
-      req.logIn(req.user, (err) => {
+      req.logIn(user, (err) => {
         if (err) {
           return next();
         }

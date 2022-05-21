@@ -11,7 +11,6 @@ export class FindOrCreateUserUseCase {
       return user;
     }
 
-    const createdUser = User.create({ username, email });
-    console.log(15, createdUser);
+    return await this.userRepository.create(User.create({ username, email }));
   }
 }
