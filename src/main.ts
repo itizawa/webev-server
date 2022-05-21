@@ -5,7 +5,7 @@ import rateLimit from 'express-rate-limit';
 import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
 import mongoose from 'mongoose';
-// import * as mongoSanitize from 'express-mongo-sanitize';
+import mongoSanitize from 'express-mongo-sanitize';
 import { requestLoggerMiddleware } from '~/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
 import { setupPassport } from './setupPassport';
@@ -51,7 +51,7 @@ export class WebevApp {
         legacyHeaders: false, // Disable the `X-RateLimit-*` headers
       }),
     );
-    // this.app.use(mongoSanitize());
+    this.app.use(mongoSanitize());
 
     this.app.use(requestLoggerMiddleware);
   }
