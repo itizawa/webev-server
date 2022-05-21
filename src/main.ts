@@ -33,7 +33,7 @@ export class WebevApp {
 
   async init(): Promise<void> {
     this.setupExpress();
-    // await this.setupDB();
+    await this.setupDB();
 
     // setup Express Routes
     this.setupPassport();
@@ -64,7 +64,8 @@ export class WebevApp {
   }
 
   setupDB() {
-    const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017/test';
+    const MONGO_URI = process.env.MONGO_URI;
+    if (!MONGO_URI) throw new Error('MONGO_URIがセットされていません');
     return mongoose.connect(MONGO_URI);
   }
 
