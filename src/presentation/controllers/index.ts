@@ -7,6 +7,8 @@ export const setupExpressRoutes = (express: express.Express): void => {
 
   // test
   express.get('/', function (req, res) {
+    console.log('router', req.user);
+
     if (req.user) {
       res.json({ ...req.user });
     } else {
