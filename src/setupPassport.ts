@@ -63,7 +63,7 @@ export const setupPassport = (app: Express) => {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: process.env.DEV !== 'true',
+        secure: process.env.NODE_ENV !== 'develop',
         maxAge: 1000 * 60 * 60 + 24, //1day
       },
     }),
