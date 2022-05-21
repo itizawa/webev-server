@@ -14,16 +14,14 @@ export class User {
     this.updatedAt = init.updatedAt;
   }
 
-  public static create(
-    params: Optional<User, 'id' | 'createdAt' | 'updatedAt'>,
-  ) {
+  public static create(params: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) {
     return new User({
       // 本来生成する場所はdomainに書くべきではない
-      id: params.id || new ObjectId().toString(),
+      id: new ObjectId().toString(),
       username: params.username,
       email: params.email,
-      createdAt: params.createdAt || new Date(),
-      updatedAt: updatedAt.createdAt || new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
   }
 }
