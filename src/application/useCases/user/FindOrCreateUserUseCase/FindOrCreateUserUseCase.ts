@@ -4,8 +4,8 @@ import { IUserRepository } from '~/infrastructure/repositories/UserRepository/IU
 export class FindOrCreateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  execute(email: string, username: string) {
-    const user = this.userRepository.findByEmail(email);
+  async execute(email: string, username: string) {
+    const user = await this.userRepository.findByEmail(email);
 
     if (user) {
       return user;

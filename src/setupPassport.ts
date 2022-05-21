@@ -4,10 +4,16 @@ import passport from 'passport';
 import session from 'express-session';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import crypto from 'crypto';
+import { FindOrCreateUserUseCase } from './application/useCases/user';
+import { UserRepository } from './infrastructure/repositories';
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 const callbackURL = process.env.GOOGLE_CALLBACK_URL;
+
+const userRepository = new UserRepository();
+
+const findOrCreateUserUseCase = new FindOrCreateUserUseCase(userRepository);
 
 export const setupPassport = (app: Express) => {
   //セッションに保存
@@ -77,8 +83,16 @@ export const setupPassport = (app: Express) => {
       failureRedirect: '/',
       session: true,
     }),
-    (req, res, next) => {
-      console.log(req.user);
+    async (req, res, next) => {
+      const user = req.user as {
+        emails: { value: string }[];
+        displayName: string;
+      };
+
+      await findOrCreateUserUseCase.execute(
+        user.emails[0].value,
+        user.displayName,
+      );
 
       //成功したときの処理
       req.logIn(req.user, (err) => {
