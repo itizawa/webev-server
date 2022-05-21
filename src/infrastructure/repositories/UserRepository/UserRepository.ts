@@ -5,8 +5,8 @@ import { User } from '~/domain/user';
 
 const UserSchema: Schema = new Schema(
   {
-    username: String,
-    email: String,
+    username: { type: String, required: true },
+    email: { type: String, required: true },
   },
   {
     timestamps: true,
@@ -32,6 +32,16 @@ export class UserRepository implements IUserRepository {
 
   async findById(id: string): Promise<User> {
     const user = await this.UserModel.findById(id);
+
+    if (!user) {
+      return null;
+    }
+
+    return this.convert(user);
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.UserModel.findOne({ email });
 
     if (!user) {
       return null;
