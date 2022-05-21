@@ -1,7 +1,7 @@
 import { model, models, Model, Schema, Document } from 'mongoose';
 import { IUserRepository } from './IUserRepository';
 
-import { User } from '~/domain/user';
+import { User } from '~/domain/User';
 
 const UserSchema: Schema = new Schema(
   {
