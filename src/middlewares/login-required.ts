@@ -1,5 +1,5 @@
 import { Response, NextFunction, Request } from 'express';
-import { User } from '~/domain/user/User';
+import { User } from '~/domain/User';
 
 /**
  * ログイン状態をチェックするミドルウェア
