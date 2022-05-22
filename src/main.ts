@@ -9,7 +9,7 @@ import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
 import { connect, Mongoose } from 'mongoose';
 import mongoSanitize from 'express-mongo-sanitize';
-import { requestLoggerMiddleware } from '~/middlewares';
+import { requestLoggerMiddleware } from '~/presentation/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
 import { setupPassport } from './setupPassport';
 import { logger } from './utils/logger';
