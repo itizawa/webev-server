@@ -2,6 +2,12 @@ import pino from 'pino';
 
 type ErrorStatus = 'debug' | 'info' | 'error';
 
+const pinoLogger = pino({
+  transport: {
+    target: 'pino-pretty',
+  },
+});
+
 export const logger = ({
   message,
   status = 'debug',
@@ -11,15 +17,15 @@ export const logger = ({
 }) => {
   switch (status) {
     case 'debug': {
-      pino().debug(message);
+      pinoLogger.debug(message);
       return;
     }
     case 'info': {
-      pino().info(message);
+      pinoLogger.info(message);
       return;
     }
     case 'error': {
-      pino().error(message);
+      pinoLogger.error(message);
       return;
     }
   }
