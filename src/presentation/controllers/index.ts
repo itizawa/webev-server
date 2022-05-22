@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { logger } from '~/utils/logger';
 
 import { getOgps } from './ogp';
 
@@ -7,8 +8,8 @@ export const setupExpressRoutes = (express: express.Express): void => {
 
   // test
   express.get('/', function (req, res) {
-    console.log('router', req.user);
-    console.log('session', req.session);
+    logger(req.user, 'info');
+    logger(req.session, 'info');
 
     if (req.user) {
       res.json({ ...req.user });

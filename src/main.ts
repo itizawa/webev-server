@@ -3,15 +3,15 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import crypto from 'crypto';
 
 import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
 import { connect, Mongoose } from 'mongoose';
 import mongoSanitize from 'express-mongo-sanitize';
-import { requestLoggerMiddleware } from '~/middlewares';
+import { requestLoggerMiddleware } from '~/presentation/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
 import { setupPassport } from './setupPassport';
+import { logger } from './utils/logger';
 
 /*****************************
  * Main Process              *
@@ -39,7 +39,7 @@ export class WebevApp {
 
     this.httpServer = createServer(this.app);
     this.httpServer.listen(this.port, () => {
-      console.log(`Express app listening at http://localhost:${this.port}`);
+      logger(`Express app listening at http://localhost:${this.port}`);
     });
   }
 
@@ -70,7 +70,7 @@ export class WebevApp {
     this.app.use(
       session({
         rolling: true,
-        secret: crypto.randomBytes(8).toString('hex'),
+        secret: process.env.SESSION_SECRET || 'Please set session secret!',
         resave: false,
         saveUninitialized: true,
         cookie: {
