@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { logger } from '~/utils/logger';
 
 /**
  * ログを出力するためのミドルウェア
@@ -11,13 +12,11 @@ export const requestLoggerMiddleware = (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  console.info(`${req.method} ${req.originalUrl}`);
+  logger(`${req.method} ${req.originalUrl}`);
   const start = new Date().getTime();
   res.on('finish', () => {
     const elapsed = new Date().getTime() - start;
-    console.info(
-      `${req.method} ${req.originalUrl} ${res.statusCode} ${elapsed}ms`,
-    );
+    logger(`${req.method} ${req.originalUrl} ${res.statusCode} ${elapsed}ms`);
   });
   next();
 };

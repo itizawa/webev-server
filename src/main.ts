@@ -12,6 +12,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import { requestLoggerMiddleware } from '~/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
 import { setupPassport } from './setupPassport';
+import { logger } from './utils/logger';
 
 /*****************************
  * Main Process              *
@@ -39,7 +40,7 @@ export class WebevApp {
 
     this.httpServer = createServer(this.app);
     this.httpServer.listen(this.port, () => {
-      console.log(`Express app listening at http://localhost:${this.port}`);
+      logger(`Express app listening at http://localhost:${this.port}`);
     });
   }
 

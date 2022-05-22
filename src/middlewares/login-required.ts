@@ -1,5 +1,6 @@
 import { Response, NextFunction, Request } from 'express';
 import { User } from '~/domain/User';
+import { logger } from '~/utils/logger';
 
 /**
  * ログイン状態をチェックするミドルウェア
@@ -14,7 +15,7 @@ export const loginRequired = (
   next: NextFunction,
 ): Response | void => {
   if (req.user == null) {
-    console.log('Error: login required');
+    logger('Error: login required', 'error');
     return res.sendStatus(403);
   }
 

@@ -9,6 +9,7 @@ import {
 } from './application/useCases/user';
 import { UserRepository } from './infrastructure/repositories';
 import { User } from './domain/User';
+import { logger } from './utils/logger';
 
 const clientID = process.env.GOOGLE_CLIENT_ID;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -82,6 +83,7 @@ export const setupPassport = (app: Express) => {
         requestUser.displayName,
       );
 
+      logger({ user, message: 'ログインに成功しました' });
       //成功したときの処理
       req.logIn(user, (err) => {
         if (err) {
