@@ -3,7 +3,6 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import crypto from 'crypto';
 
 import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
@@ -71,7 +70,7 @@ export class WebevApp {
     this.app.use(
       session({
         rolling: true,
-        secret: crypto.randomBytes(8).toString('hex'),
+        secret: process.env.SESSION_SECRET || 'Please set session secret!',
         resave: false,
         saveUninitialized: true,
         cookie: {
