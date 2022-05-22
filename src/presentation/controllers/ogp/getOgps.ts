@@ -3,7 +3,7 @@ import { query } from 'express-validator';
 import { FetchOgpUseCase } from '~/application/useCases/ogp';
 import { OgpAdapter } from '~/infrastructure/adapters/ogp.adapter';
 
-import { validate } from '~/middlewares/validate';
+import { validate } from '~/presentation/middlewares/validate';
 import { isValidUrl } from '~/utils/isValidUrl';
 
 const validations = [query('url').custom((url) => isValidUrl(url))];
