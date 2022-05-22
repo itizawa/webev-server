@@ -6,7 +6,7 @@ import MongoStore from 'connect-mongo';
 
 import { Server as httpServer, createServer } from 'http';
 import cors from 'cors';
-import { connection, connect, Mongoose } from 'mongoose';
+import { connect, Mongoose } from 'mongoose';
 import mongoSanitize from 'express-mongo-sanitize';
 import { requestLoggerMiddleware } from '~/presentation/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
