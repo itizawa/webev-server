@@ -8,13 +8,10 @@ const pinoLogger = pino({
   },
 });
 
-export const logger = ({
-  message,
-  status = 'debug',
-}: {
-  message: Record<string, any> | string;
-  status?: ErrorStatus;
-}) => {
+export const logger = (
+  message: Record<string, any> | string,
+  status?: ErrorStatus,
+) => {
   switch (status) {
     case 'debug': {
       pinoLogger.debug(message);
@@ -26,6 +23,10 @@ export const logger = ({
     }
     case 'error': {
       pinoLogger.error(message);
+      return;
+    }
+    default: {
+      pinoLogger.info(message);
       return;
     }
   }

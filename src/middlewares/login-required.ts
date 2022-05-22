@@ -15,7 +15,7 @@ export const loginRequired = (
   next: NextFunction,
 ): Response | void => {
   if (req.user == null) {
-    logger({ message: 'Error: login required', status: 'error' });
+    logger('Error: login required', 'error');
     return res.sendStatus(403);
   }
 

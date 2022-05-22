@@ -40,10 +40,7 @@ export class WebevApp {
 
     this.httpServer = createServer(this.app);
     this.httpServer.listen(this.port, () => {
-      logger({
-        message: `Express app listening at http://localhost:${this.port}`,
-        status: 'info',
-      });
+      logger(`Express app listening at http://localhost:${this.port}`);
     });
   }
 

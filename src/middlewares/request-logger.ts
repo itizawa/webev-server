@@ -12,14 +12,11 @@ export const requestLoggerMiddleware = (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  logger({ message: `${req.method} ${req.originalUrl}`, status: 'info' });
+  logger(`${req.method} ${req.originalUrl}`);
   const start = new Date().getTime();
   res.on('finish', () => {
     const elapsed = new Date().getTime() - start;
-    logger({
-      message: `${req.method} ${req.originalUrl} ${res.statusCode} ${elapsed}ms`,
-      status: 'info',
-    });
+    logger(`${req.method} ${req.originalUrl} ${res.statusCode} ${elapsed}ms`);
   });
   next();
 };
