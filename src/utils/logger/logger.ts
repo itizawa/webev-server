@@ -12,7 +12,7 @@ export const logger = ({
   message,
   status = 'debug',
 }: {
-  message: Record<string, any>;
+  message: Record<string, any> | string;
   status?: ErrorStatus;
 }) => {
   switch (status) {
