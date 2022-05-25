@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 /**
  * @swagger
- * /api/v1/user/me:
+ * /api/v1/users/me:
  *   get:
  *     description: ログイン中のユーザーを取得する
  *     produces:
