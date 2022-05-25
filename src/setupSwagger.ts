@@ -8,9 +8,10 @@ const options = {
     info: {
       title: 'WEBEV API',
       version: '1.0.0',
+      description: 'https://github.com/itizaworld/webev-server',
     },
   },
-  apis: ['./presentation/index.js'],
+  apis: ['./**/*.ts'],
 };
 
 export const setupSwagger = (app: Express) => {
