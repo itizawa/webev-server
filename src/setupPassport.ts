@@ -89,7 +89,7 @@ export const setupPassport = (app: Express) => {
         if (err) {
           return next();
         }
-        return res.redirect('/');
+        return res.redirect(process.env.WEBEV_FRONT_URL);
       });
     },
   );
