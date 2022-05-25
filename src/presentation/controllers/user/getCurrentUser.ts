@@ -10,9 +10,11 @@ import { Request, Response } from 'express';
  *     responses:
  *       200:
  *         description: ログイン中のユーザーを返す
- *         examples:
- *           result:
- *              currentUser: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             currentUser:
+ *               $ref: '#/definitions/User'
  */
 export const getCurrentUser = async (req: Request, res: Response) => {
   return res.status(200).json({ currentUser: req.user });
