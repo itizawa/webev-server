@@ -7,6 +7,7 @@ const UserSchema: Schema = new Schema(
   {
     username: { type: String, required: true },
     email: { type: String, required: true },
+    profileUrl: { type: String },
   },
   {
     timestamps: true,
@@ -35,6 +36,7 @@ export class UserRepository implements IUserRepository {
       id: user._id.toString(),
       username: user.username,
       email: user.email,
+      profileUrl: user.profileUrl,
       createdAt: new Date(user.createdAt),
       updatedAt: new Date(user.updatedAt),
     });

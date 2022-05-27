@@ -76,11 +76,13 @@ export const setupPassport = (app: Express) => {
       const requestUser = req.user as {
         emails: { value: string }[];
         displayName: string;
+        photos: { value: string }[];
       };
 
       const user = await findOrCreateUserUseCase.execute(
         requestUser.emails[0].value,
         requestUser.displayName,
+        requestUser.photos[0].value,
       );
 
       logger({ user, message: 'ログインに成功しました' });
@@ -89,7 +91,7 @@ export const setupPassport = (app: Express) => {
         if (err) {
           return next();
         }
-        return res.redirect('/');
+        return res.redirect(process.env.WEBEV_FRONT_URL);
       });
     },
   );

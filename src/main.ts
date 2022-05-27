@@ -12,6 +12,7 @@ import { requestLoggerMiddleware } from '~/presentation/middlewares';
 import { setupExpressRoutes } from './presentation/controllers';
 import { setupPassport } from './setupPassport';
 import { logger } from './utils/logger';
+import { setupSwagger } from './setupSwagger';
 
 /*****************************
  * Main Process              *
@@ -33,8 +34,10 @@ export class WebevApp {
 
     await this.setupDB();
 
-    // setup Express Routes
     setupPassport(this.app);
+    setupSwagger(this.app);
+
+    // setup Express Routes
     this.setupRoutes();
 
     this.httpServer = createServer(this.app);
