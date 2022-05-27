@@ -1,7 +1,7 @@
 import { Page } from '~/domain/Page';
 
 export interface IPageRepository {
-  create(pages: Partial<Page>): Promise<Page>;
+  create(pages: Page): Promise<Page>;
   count(): Promise<number>;
   // find(query: FilterQuery<Page>, options: PaginationOptions): Promise<PaginationResult<Page>>;
   findById(id: string): Promise<Page | null>;

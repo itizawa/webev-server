@@ -57,10 +57,26 @@ export class PageRepository implements IPageRepository {
     });
   }
 
-  async create(pages: Partial<Page>): Promise<Page> {
-    const result = await this.PageModel.create(pages);
+  private convertToDB(data: Page): PageForDB {
+    return {
+      ...data,
+      _id: data.id,
+    };
+  }
 
-    return this.convert(result);
+  private convertFromDB(data: PageForDB): Page {
+    return new Page({
+      ...data,
+      id: data._id.toString(),
+      createdAt: new Date(data.createdAt),
+      updatedAt: new Date(data.updatedAt),
+    });
+  }
+
+  async create(page: Page): Promise<Page> {
+    return this.convertFromDB(
+      await this.PageModel.create(this.convertToDB(page)),
+    );
   }
 
   async count(): Promise<number> {
