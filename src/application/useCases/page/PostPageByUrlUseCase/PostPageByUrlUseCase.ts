@@ -1,6 +1,7 @@
 import { IOgpAdapter } from '~/application/adapters/IOgpAdapter';
 import { Page } from '~/domain/Page';
 import { IPageRepository } from '~/infrastructure/repositories/PageRepository';
+import { logger } from '~/utils/logger';
 
 /**
  * url をもとに page を複数生成する
@@ -21,6 +22,8 @@ export class PostPageByUrlUseCase {
     userId: string;
   }): Promise<Page> {
     const ogp = await this.ogpAdapter.fetch(url);
+
+    logger({ ogp, message: 'Ogpを取得しました' });
 
     return await this.pageRepository.create(
       Page.create({ ...ogp, isDeleted: false, createdUser: userId }),
