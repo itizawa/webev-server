@@ -1,0 +1,1 @@
+export { postPageByUrl } from './postPageByUrl';
