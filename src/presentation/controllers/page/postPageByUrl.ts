@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { query } from 'express-validator';
+import { body } from 'express-validator';
 import { PostPageByUrlUseCase } from '~/application/useCases/page';
 import { User } from '~/domain/User';
 import { OgpAdapter } from '~/infrastructure/adapters/ogp.adapter';
@@ -7,7 +7,7 @@ import { PageRepository } from '~/infrastructure/repositories/PageRepository';
 import { validate } from '~/presentation/middlewares/validate';
 import { isValidUrl } from '~/utils/isValidUrl';
 
-const validations = [query('url').custom((url) => isValidUrl(url))];
+const validations = [body('url').custom((url) => isValidUrl(url))];
 const postPageByUrlUseCase = new PostPageByUrlUseCase(
   new OgpAdapter(),
   new PageRepository(),
@@ -20,7 +20,7 @@ const postPageByUrlUseCase = new PostPageByUrlUseCase(
  *     description: UrlからOGPを取得して保存するためのapi
  *     parameters:
  *      - name: url
- *        in: query
+ *        in: body
  *        description: 保存するurl
  *        required: true
  *        type: string
@@ -37,7 +37,7 @@ const postPageByUrlUseCase = new PostPageByUrlUseCase(
 export const postPageByUrl = validate(
   validations,
   async (req: Request & { user: User }, res: Response) => {
-    const { url } = req.query;
+    const { url } = req.body;
 
     if (typeof url !== 'string') {
       return res
