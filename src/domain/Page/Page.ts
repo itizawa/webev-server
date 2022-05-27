@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 /**
  * @swagger
  * definitions:
@@ -33,13 +35,13 @@
  */
 export class Page {
   id: string;
-  url: string;
-  image: string;
-  favicon: string;
-  description: string;
-  title: string;
+  url?: string;
+  image?: string;
+  favicon?: string;
+  description?: string;
+  title?: string;
   body?: string;
-  siteName: string;
+  siteName?: string;
   isDeleted: boolean;
   createdUser: string;
   createdAt: Date;
@@ -59,5 +61,23 @@ export class Page {
     this.createdAt = init.createdAt;
     this.updatedAt = init.updatedAt;
     this.archivedAt = init.archivedAt;
+  }
+
+  public static create(params: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) {
+    return new Page({
+      // 本来生成する場所はdomainに書くべきではない
+      id: new ObjectId().toString(),
+      url: params.url,
+      image: params.image,
+      favicon: params.favicon,
+      description: params.description,
+      title: params.title,
+      body: params.body,
+      siteName: params.siteName,
+      isDeleted: params.isDeleted,
+      createdUser: params.createdUser,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
   }
 }
