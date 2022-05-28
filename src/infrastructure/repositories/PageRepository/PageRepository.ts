@@ -1,5 +1,17 @@
-import { model, models, Model, Schema, Types, Document } from 'mongoose';
+import {
+  FilterQuery,
+  model,
+  models,
+  Model,
+  Schema,
+  Types,
+  Document,
+  PaginateOptions,
+} from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
+
 import { Page } from '~/domain/Page';
+import { PaginationResult } from '~/domain/shared';
 import { IPageRepository } from './IPageRepository';
 
 const PageSchema: Schema = new Schema(
@@ -33,10 +45,21 @@ type PageForDB = Omit<Page, 'id'> & {
 };
 
 export class PageRepository implements IPageRepository {
-  PageModel: Model<Page & Document>;
+  PageModel: Model<Page & Document> & {
+    paginate: (
+      query: FilterQuery<Page>,
+      options: PaginateOptions,
+    ) => Promise<PaginationResult<PageForDB>>;
+  };
 
   constructor() {
-    this.PageModel = models.Page || model<Page & Document>('Page', PageSchema);
+    PageSchema.plugin(paginate);
+    this.PageModel =
+      (models.Page as PageRepository['PageModel']) ||
+      (model<Page & Document>(
+        'Page',
+        PageSchema,
+      ) as PageRepository['PageModel']);
   }
 
   private convert(page: PageForDB): Page {
@@ -83,21 +106,15 @@ export class PageRepository implements IPageRepository {
     return this.PageModel.estimatedDocumentCount();
   }
 
-  //   async find(
-  //     query: FilterQuery<Page>,
-  //     options: PaginationOptions,
-  //   ): Promise<PaginationResult<Page>> {
-  //     const result: PaginationResult<Page> = await this.PageModel.paginate(
-  //       query,
-  //       options,
-  //     );
-  //     return {
-  //       ...result,
-  //       docs: result.docs.map((doc) => {
-  //         return this.convert(doc);
-  //       }),
-  //     };
-  //   }
+  async findPagesByUserId(userId: string): Promise<PaginationResult<Page>> {
+    const result = await this.PageModel.paginate({ userId }, {});
+    return {
+      ...result,
+      docs: result.docs.map((doc: PageForDB) => {
+        return this.convert(doc);
+      }),
+    };
+  }
 
   async findById(id: string): Promise<Page | null> {
     const page = await this.PageModel.findById(id);
