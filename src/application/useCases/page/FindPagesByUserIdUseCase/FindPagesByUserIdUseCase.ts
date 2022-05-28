@@ -1,5 +1,7 @@
+import { FilterQuery } from 'mongoose';
 import { Page } from '~/domain/Page';
 import { PaginationResult } from '~/domain/shared';
+import { PaginationOptions } from '~/domain/shared/PaginationOptions';
 import { IPageRepository } from '~/infrastructure/repositories/PageRepository';
 
 /**
@@ -9,11 +11,10 @@ import { IPageRepository } from '~/infrastructure/repositories/PageRepository';
 export class FindPagesByUserIdUseCase {
   constructor(private readonly pageRepository: IPageRepository) {}
 
-  async execute({
-    userId,
-  }: {
-    userId: string;
-  }): Promise<PaginationResult<Page>> {
-    return await this.pageRepository.findPagesByUserId(userId);
+  async execute(
+    query: FilterQuery<Page>,
+    option: PaginationOptions,
+  ): Promise<PaginationResult<Page>> {
+    return await this.pageRepository.findPages(query, option);
   }
 }
