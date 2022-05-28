@@ -28,7 +28,7 @@ const postPageByUrlUseCase = new FindPagesByUserIdUseCase(new PageRepository());
  *             pages:
  *               $ref: '#/definitions/Page'
  */
-export const findPagesByUserId = async (
+export const findPages = async (
   req: Request & { user: User },
   res: Response,
 ) => {
