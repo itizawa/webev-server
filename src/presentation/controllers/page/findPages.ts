@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { FilterQuery } from 'mongoose';
+import { escapeRegExp } from 'lodash';
+
 import { FindPagesByUserIdUseCase } from '~/application/useCases/page';
 import { Page } from '~/domain/Page';
 import { PaginationOptions } from '~/domain/shared';
@@ -55,11 +57,12 @@ export const findPages = async (
   }
 
   if (q) {
+    const safeQuery = escapeRegExp(q);
     query.$or = [
-      { url: new RegExp(q) },
-      { title: new RegExp(q) },
-      { siteName: new RegExp(q) },
-      { description: new RegExp(q) },
+      { url: new RegExp(safeQuery) },
+      { title: new RegExp(safeQuery) },
+      { siteName: new RegExp(safeQuery) },
+      { description: new RegExp(safeQuery) },
     ];
   }
 
