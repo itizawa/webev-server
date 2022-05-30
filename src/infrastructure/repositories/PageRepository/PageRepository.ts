@@ -12,6 +12,7 @@ import paginate from 'mongoose-paginate-v2';
 
 import { Page } from '~/domain/Page';
 import { PaginationResult } from '~/domain/shared';
+import { PaginationOptions } from '~/domain/shared/PaginationOptions';
 import { IPageRepository } from './IPageRepository';
 
 const PageSchema: Schema = new Schema(
@@ -106,8 +107,11 @@ export class PageRepository implements IPageRepository {
     return this.PageModel.estimatedDocumentCount();
   }
 
-  async findPagesByUserId(userId: string): Promise<PaginationResult<Page>> {
-    const result = await this.PageModel.paginate({ userId }, {});
+  async findPages(
+    query: FilterQuery<Page>,
+    option: PaginationOptions,
+  ): Promise<PaginationResult<Page>> {
+    const result = await this.PageModel.paginate(query, option);
     return {
       ...result,
       docs: result.docs.map((doc: PageForDB) => {
