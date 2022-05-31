@@ -8,7 +8,9 @@ import { PaginationOptions } from '~/domain/shared';
 import { User } from '~/domain/User';
 import { PageRepository } from '~/infrastructure/repositories/PageRepository';
 
-const postPageByUrlUseCase = new FindPagesByUserIdUseCase(new PageRepository());
+const findPagesByUserIdUseCase = new FindPagesByUserIdUseCase(
+  new PageRepository(),
+);
 
 /**
  * @swagger
@@ -73,10 +75,8 @@ export const findPages = async (
   });
 
   try {
-    const paginationPage = await postPageByUrlUseCase.execute(
-      {
-        createdUser: req.user.id,
-      },
+    const paginationPage = await findPagesByUserIdUseCase.execute(
+      query,
       options,
     );
     return res.status(200).json({ paginationPage });
