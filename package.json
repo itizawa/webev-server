@@ -78,6 +78,6 @@
     "testEnvironment": "node"
   },
   "volta": {
-    "node": "16.15.0"
+    "node": "16.15.1"
   }
 }
