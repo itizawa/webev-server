@@ -27,7 +27,7 @@ export class UnarchivePageUseCase {
     }
 
     return await this.pageRepository.update(page.id, {
-      archivedAt: undefined,
+      archivedAt: null,
     });
   }
 }
