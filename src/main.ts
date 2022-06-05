@@ -53,7 +53,7 @@ export class WebevApp {
     this.app = express();
 
     this.app.use(
-      cors({ origin: 'https://www.webev.cloud', credentials: true }),
+      cors({ origin: ['https://www.webev.cloud', true], credentials: true }),
     );
     this.app.use(express.json());
     this.app.use(
