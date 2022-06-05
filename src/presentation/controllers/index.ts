@@ -3,7 +3,13 @@ import { logger } from '~/utils/logger';
 import { loginRequired } from '../middlewares';
 
 import { getOgps } from './ogp';
-import { archivePage, countAllPages, findPages, postPageByUrl } from './page';
+import {
+  archivePage,
+  countAllPages,
+  findPages,
+  postPageByUrl,
+  unarchivePage,
+} from './page';
 import { getCurrentUser } from './user';
 
 export const setupExpressRoutes = (express: express.Express): void => {
@@ -13,6 +19,7 @@ export const setupExpressRoutes = (express: express.Express): void => {
   express.get('/api/v1/pages/all-count', countAllPages);
   express.get('/api/v1/pages/list', loginRequired, findPages);
   express.put('/api/v1/pages/:id/archive', loginRequired, archivePage);
+  express.put('/api/v1/pages/:id/unarchive', loginRequired, unarchivePage);
 
   express.get('/api/v1/users/me', getCurrentUser);
 
