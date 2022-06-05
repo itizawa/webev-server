@@ -4483,10 +4483,10 @@ tr46@^3.0.0:
   dependencies:
     punycode "^2.1.1"
 
-ts-jest@28.0.3:
-  version "28.0.3"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.3.tgz#d1c47f167e56eef3989bb51afaf7fc1c87a04c52"
-  integrity sha512-HzgbEDQ2KgVtDmpXToqAcKTyGHdHsG23i/iUjfxji92G5eT09S1m9UHZd7csF0Bfgh9txM4JzwHnv7r1waFPlw==
+ts-jest@28.0.4:
+  version "28.0.4"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.4.tgz#0ab705a60fc4b9f3506f35e26edfa9e9c915c31b"
+  integrity sha512-S6uRDDdCJBvnZqyGjB4VCnwbQrbgdL8WPeP4jevVSpYsBaeGRQAIS08o3Svav2Ex+oXwLgJ/m7F24TNq62kA1A==
   dependencies:
     bs-logger "0.x"
     fast-json-stable-stringify "2.x"
@@ -4526,10 +4526,10 @@ ts-node@10.8.0:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
-tsc-alias@1.6.7:
-  version "1.6.7"
-  resolved "https://registry.yarnpkg.com/tsc-alias/-/tsc-alias-1.6.7.tgz#354840d6444db79dd13fcc4f9ec37574ff9d5120"
-  integrity sha512-GRbZx/zTee01JtrHB7hkddgxn+aQqYDmRaFv/MTYIqBbk/L8Zf0nA/T60wXOr/Q7002YXppUFXsqsu5ViWB4vQ==
+tsc-alias@1.6.8:
+  version "1.6.8"
+  resolved "https://registry.yarnpkg.com/tsc-alias/-/tsc-alias-1.6.8.tgz#b67dce96801dc2f715982cbf801af817bc3b6003"
+  integrity sha512-dEhFc4uNDxqU8n2l+KtaC4FRrDmC6jWX4G1UjOGiRayS0RAj7ABDqnSkwQQiRIrhZZAaTwpNlap60fHsQaS1aQ==
   dependencies:
     chokidar "^3.5.3"
     commander "^9.0.0"
