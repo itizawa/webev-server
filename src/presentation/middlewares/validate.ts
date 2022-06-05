@@ -1,5 +1,6 @@
 import express from 'express';
 import { validationResult, ValidationChain } from 'express-validator';
+import { logger } from '~/utils/logger';
 
 /**
  * バリデーションするためのミドルウェア
@@ -14,6 +15,7 @@ export const validate = (validations: ValidationChain[], callback) => {
     if (errors.isEmpty()) {
       return callback(req, res);
     }
+    logger({ errors }, 'error');
 
     res.status(400).json({ errors: errors.array() });
   };
