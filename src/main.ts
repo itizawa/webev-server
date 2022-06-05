@@ -35,7 +35,10 @@ export class WebevApp {
     await this.setupDB();
 
     setupPassport(this.app);
-    setupSwagger(this.app);
+
+    if (process.env.ENABLE_SWAGGER === 'true') {
+      setupSwagger(this.app);
+    }
 
     // setup Express Routes
     this.setupRoutes();
