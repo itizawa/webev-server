@@ -85,10 +85,7 @@ export class WebevApp {
         resave: false,
         saveUninitialized: true,
         cookie: {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'develop',
           maxAge: 1000 * 60 * 60 + 24 * 30, // 30day
-          sameSite: 'none',
         },
         store: MongoStore.create({
           mongoUrl,
