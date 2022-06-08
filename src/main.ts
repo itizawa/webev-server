@@ -54,7 +54,7 @@ export class WebevApp {
 
     this.app.use(
       cors({
-        origin: process.env.ORIGIN ? process.env.ORIGIN : true,
+        origin: true,
         credentials: true,
       }),
     );
@@ -86,7 +86,7 @@ export class WebevApp {
         saveUninitialized: true,
         cookie: {
           httpOnly: true,
-          secure: process.env.NODE_ENV !== 'develop',
+          secure: process.env.NODE_ENV === 'develop',
           maxAge: 1000 * 60 * 60 + 24 * 30, // 30day
           sameSite: 'none',
         },
