@@ -85,7 +85,7 @@ export class WebevApp {
         resave: false,
         saveUninitialized: true,
         cookie: {
-          maxAge: 1000 * 60 * 60 + 24 * 30, // 30day
+          maxAge: 1000 * 60 * 60 * 24 * 30, // 30day
         },
         store: MongoStore.create({
           mongoUrl,
