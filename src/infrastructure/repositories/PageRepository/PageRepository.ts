@@ -34,9 +34,6 @@ const PageSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
-    archivedAt: {
-      type: Date,
-    },
   },
   { timestamps: true },
 );
@@ -77,7 +74,6 @@ export class PageRepository implements IPageRepository {
       createdUser: page.createdUser.toString(),
       createdAt: page.createdAt,
       updatedAt: page.updatedAt,
-      archivedAt: page.archivedAt,
     });
   }
 
@@ -105,6 +101,10 @@ export class PageRepository implements IPageRepository {
 
   async count(): Promise<number> {
     return this.PageModel.estimatedDocumentCount();
+  }
+
+  async countByUserId(userId: string): Promise<number> {
+    return this.PageModel.countDocuments({ createdUser: userId });
   }
 
   async findPages(

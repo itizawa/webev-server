@@ -6,6 +6,7 @@ import { PaginationOptions } from '~/domain/shared/PaginationOptions';
 export interface IPageRepository {
   create(pages: Page): Promise<Page>;
   count(): Promise<number>;
+  countByUserId(userId: string): Promise<number>;
   findPages(
     query: FilterQuery<Page>,
     option: PaginationOptions,
