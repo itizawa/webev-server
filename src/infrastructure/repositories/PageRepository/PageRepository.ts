@@ -103,6 +103,10 @@ export class PageRepository implements IPageRepository {
     return this.PageModel.estimatedDocumentCount();
   }
 
+  async countByUserId(userId: string): Promise<number> {
+    return this.PageModel.countDocuments({ createdUser: userId });
+  }
+
   async findPages(
     query: FilterQuery<Page>,
     option: PaginationOptions,

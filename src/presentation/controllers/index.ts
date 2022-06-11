@@ -4,7 +4,7 @@ import { loginRequired } from '../middlewares';
 
 import { getOgps } from './ogp';
 import { countAllPages, findPages, postPageByUrl } from './page';
-import { getCurrentUser } from './user';
+import { getCurrentUser, getUserPagesCount } from './user';
 
 export const setupExpressRoutes = (express: express.Express): void => {
   express.get('/api/v1/ogps', getOgps);
@@ -14,6 +14,7 @@ export const setupExpressRoutes = (express: express.Express): void => {
   express.get('/api/v1/pages/list', loginRequired, findPages);
 
   express.get('/api/v1/users/me', getCurrentUser);
+  express.get('/api/v1/users/:id/pages/count', getUserPagesCount);
 
   // test
   express.get('/', function (req, res) {
