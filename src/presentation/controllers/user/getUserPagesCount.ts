@@ -10,7 +10,7 @@ const countPagesByUserIdUseCase = new CountPagesByUserIdUseCase(
 export const getUserPagesCount = async (req: Request, res: Response) => {
   const { id: userId } = req.params;
 
-  if (typeof userId === 'string') {
+  if (typeof userId !== 'string') {
     return res.status(400).json({ message: '不正なリクエストです' });
   }
 
