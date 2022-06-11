@@ -36,7 +36,7 @@ export const findPages = async (
   req: Request & { user: User },
   res: Response,
 ) => {
-  const { sort, page = '1', limit = '10', q = '', isArchived } = req.query;
+  const { sort, page = '1', limit = '10', q = '' } = req.query;
 
   if (
     typeof q !== 'string' ||
@@ -51,12 +51,6 @@ export const findPages = async (
     createdUser: req.user.id,
     isDeleted: false,
   };
-
-  if (isArchived === 'true') {
-    query.archivedAt = { $ne: undefined };
-  } else {
-    query.archivedAt = null;
-  }
 
   if (q) {
     const safeQuery = escapeRegExp(q);
