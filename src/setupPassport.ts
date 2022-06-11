@@ -59,6 +59,12 @@ export const setupPassport = (app: Express) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  app.get('/logout', (req: { logout: (callback: () => void) => void }, res) => {
+    req.logout(() => {
+      res.redirect(process.env.WEBEV_FRONT_URL);
+    });
+  });
+
   app.get(
     '/auth/google',
     passport.authenticate('google', {
