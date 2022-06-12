@@ -7,6 +7,7 @@ export interface IPageRepository {
   create(pages: Page): Promise<Page>;
   count(): Promise<number>;
   countByUserId(userId: string): Promise<number>;
+  deleteById(id: string): Promise<Page>;
   findPages(
     query: FilterQuery<Page>,
     option: PaginationOptions,

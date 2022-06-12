@@ -107,6 +107,10 @@ export class PageRepository implements IPageRepository {
     return this.PageModel.countDocuments({ createdUser: userId });
   }
 
+  async deleteById(id: string): Promise<Page> {
+    return this.PageModel.findByIdAndDelete(id, { new: true });
+  }
+
   async findPages(
     query: FilterQuery<Page>,
     option: PaginationOptions,
