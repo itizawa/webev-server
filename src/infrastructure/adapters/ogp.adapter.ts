@@ -1,6 +1,7 @@
 import request from 'superagent';
 import cheerio from 'cheerio';
 import { IOgpAdapter } from 'src/application/adapters/IOgpAdapter';
+import { extract } from 'article-parser';
 
 export class OgpAdapter implements IOgpAdapter {
   async fetch(url: string): Promise<{
@@ -10,8 +11,9 @@ export class OgpAdapter implements IOgpAdapter {
     image?: string;
     description?: string;
     siteName?: string;
+    body?: string;
   }> {
-    const result = await request(url);
+    const [result, data] = await Promise.all([request(url), extract(url)]);
     const $ = cheerio.load(result.text);
 
     return {
@@ -23,6 +25,7 @@ export class OgpAdapter implements IOgpAdapter {
       description: $("meta[property='og:description']").attr('content'),
       title: $("meta[property='og:title']").attr('content'),
       siteName: $("meta[property='og:site_name']").attr('content'),
+      body: data.content,
     };
   }
 }
