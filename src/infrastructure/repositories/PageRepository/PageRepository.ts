@@ -29,6 +29,10 @@ const PageSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
@@ -71,6 +75,7 @@ export class PageRepository implements IPageRepository {
       body: page.body,
       siteName: page.siteName,
       isDeleted: page.isDeleted,
+      isRead: page.isRead,
       createdUser: page.createdUser.toString(),
       createdAt: page.createdAt,
       updatedAt: page.updatedAt,
