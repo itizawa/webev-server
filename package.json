@@ -14,6 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "article-parser": "^6.0.1",
     "cheerio": "1.0.0-rc.11",
     "connect-mongo": "4.6.0",
     "cors": "2.8.5",
@@ -31,8 +32,8 @@
     "pino": "8.0.0",
     "pino-pretty": "8.0.0",
     "superagent": "7.1.6",
-    "swagger-ui-express": "^4.4.0",
-    "swagger-jsdoc": "^6.2.1"
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
     "@types/cors": "2.8.12",
