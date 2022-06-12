@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "article-parser": "^6.0.1",
+    "article-parser": "6.0.1",
     "cheerio": "1.0.0-rc.11",
     "connect-mongo": "4.6.0",
     "cors": "2.8.5",
@@ -24,16 +24,16 @@
     "express-rate-limit": "6.4.0",
     "express-session": "1.17.3",
     "express-validator": "6.14.1",
-    "lodash": "^4.17.21",
+    "lodash": "4.17.21",
     "mongoose": "6.3.6",
-    "mongoose-paginate-v2": "^1.6.3",
+    "mongoose-paginate-v2": "1.6.3",
     "passport": "0.6.0",
     "passport-google-oauth": "2.0.0",
     "pino": "8.0.0",
     "pino-pretty": "8.0.0",
     "superagent": "7.1.6",
-    "swagger-jsdoc": "^6.2.1",
-    "swagger-ui-express": "^4.4.0"
+    "swagger-jsdoc": "6.2.1",
+    "swagger-ui-express": "4.4.0"
   },
   "devDependencies": {
     "@types/cors": "2.8.12",
