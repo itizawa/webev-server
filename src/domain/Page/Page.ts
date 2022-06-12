@@ -41,6 +41,7 @@ export class Page {
   body?: string;
   siteName?: string;
   isDeleted: boolean;
+  isRead?: boolean;
   createdUser: string;
   createdAt: Date;
   updatedAt: Date;
@@ -54,6 +55,7 @@ export class Page {
     this.body = init.body;
     this.siteName = init.siteName;
     this.isDeleted = init.isDeleted;
+    this.isRead = init.isRead;
     this.createdUser = init.createdUser;
     this.createdAt = init.createdAt;
     this.updatedAt = init.updatedAt;
@@ -71,6 +73,7 @@ export class Page {
       body: params.body,
       siteName: params.siteName,
       isDeleted: params.isDeleted,
+      isRead: params.isRead,
       createdUser: params.createdUser,
       createdAt: new Date(),
       updatedAt: new Date(),
