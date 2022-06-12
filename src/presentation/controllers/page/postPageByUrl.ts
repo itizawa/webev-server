@@ -6,6 +6,7 @@ import { OgpAdapter } from '~/infrastructure/adapters/ogp.adapter';
 import { PageRepository } from '~/infrastructure/repositories/PageRepository';
 import { validate } from '~/presentation/middlewares/validate';
 import { isValidUrl } from '~/utils/isValidUrl';
+import { logger } from '~/utils/logger';
 
 const validations = [body('url').custom((url) => isValidUrl(url))];
 const postPageByUrlUseCase = new PostPageByUrlUseCase(
@@ -52,6 +53,7 @@ export const postPageByUrl = validate(
       });
       return res.status(200).json({ page });
     } catch (error) {
+      logger(error, 'error');
       return res.status(500).json({ message: error.message });
     }
   },
