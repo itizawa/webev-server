@@ -10,7 +10,7 @@ export class DeletePageByIdUseCase {
   async execute(id: string, userId: string): Promise<Page> {
     const page = await this.pageRepository.findById(id);
 
-    if (!page || page.createdUser === userId) {
+    if (!page || page.createdUser !== userId) {
       throw new Error('ページを削除する権限がありません');
     }
 
