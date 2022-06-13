@@ -1,0 +1,1 @@
+export { CreateMagazineUseCase } from './CreateMagazineUseCase';
