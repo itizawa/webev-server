@@ -21,15 +21,18 @@ export class Magazine {
   }
 
   public static create(
-    params: Omit<Magazine, 'id' | 'createdAt' | 'updatedAt'>,
+    params: Omit<
+      Magazine,
+      'id' | 'isDeleted' | 'isPublic' | 'createdAt' | 'updatedAt'
+    >,
   ) {
     return new Magazine({
       // 本来生成する場所はdomainに書くべきではない
       id: new ObjectId().toString(),
       name: params.name,
       description: params.description,
-      isDeleted: params.isDeleted,
-      isPublic: params.isPublic,
+      isDeleted: false,
+      isPublic: false,
       createdUserId: params.createdUserId,
       createdAt: new Date(),
       updatedAt: new Date(),
