@@ -38,6 +38,10 @@ const PageSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
+    magazineId: {
+      type: Types.ObjectId,
+      ref: 'Magazine',
+    },
   },
   { timestamps: true },
 );
@@ -76,6 +80,7 @@ export class PageRepository implements IPageRepository {
       siteName: page.siteName,
       isDeleted: page.isDeleted,
       isRead: page.isRead,
+      magazineId: page.magazineId,
       createdUser: page.createdUser.toString(),
       createdAt: page.createdAt,
       updatedAt: page.updatedAt,

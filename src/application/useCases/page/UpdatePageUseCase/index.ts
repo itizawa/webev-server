@@ -1,0 +1,1 @@
+export { UpdatePageUseCase } from './UpdatePageUseCase';
