@@ -9,7 +9,13 @@ import { logger } from '~/utils/logger';
 const updatePageUseCase = new UpdatePageUseCase(new PageRepository());
 
 export const updatePage = async (
-  req: Request<{ pageId: string; magazineId?: string }> & { user: User },
+  req: Request<
+    { pageId: string },
+    Record<string, never>,
+    { magazineId?: string; isRead?: 'true' | 'false' }
+  > & {
+    user: User;
+  },
   res: Response,
 ) => {
   const { user } = req;
@@ -19,9 +25,15 @@ export const updatePage = async (
     return res.status(400);
   }
 
-  const newObject: Partial<Page> = {
-    isRead: req.body.isRead,
-  };
+  const newObject: Partial<Page> = {};
+
+  if (req.body.isRead) {
+    newObject.isRead = Boolean(req.body.isRead);
+  }
+
+  if (req.body.magazineId) {
+    newObject.magazineId = req.body.magazineId;
+  }
 
   try {
     const page = await updatePageUseCase.execute(user.id, pageId, newObject);
