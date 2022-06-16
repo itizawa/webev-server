@@ -33,10 +33,10 @@ const findPagesByUserIdUseCase = new FindPagesByUserIdUseCase(
  *               $ref: '#/definitions/Page'
  */
 export const findPages = async (
-  req: Request & { user: User },
+  req: Request<{ isRead: 'true' | 'false' }> & { user: User },
   res: Response,
 ) => {
-  const { sort, page = '1', limit = '10', q = '' } = req.query;
+  const { sort, page = '1', limit = '10', q = '', isRead } = req.query;
 
   if (
     typeof q !== 'string' ||
@@ -51,6 +51,10 @@ export const findPages = async (
     createdUser: req.user.id,
     isDeleted: false,
   };
+
+  if (isRead !== undefined) {
+    query.isRead = isRead === 'true';
+  }
 
   if (q) {
     const safeQuery = escapeRegExp(q);
