@@ -16,7 +16,7 @@ export const setupExpressRoutes = (express: express.Express): void => {
 
   express.post('/api/v1/pages', loginRequired, postPageByUrl);
   express.delete('/api/v1/pages/:id', loginRequired, deletePageById);
-  express.put('/api/v1/pages/:id', loginRequired, updatePage);
+  express.put('/api/v1/pages/:pageId', loginRequired, updatePage);
   express.get('/api/v1/pages/all-count', countAllPages);
   express.get('/api/v1/pages/list', loginRequired, findPages);
 

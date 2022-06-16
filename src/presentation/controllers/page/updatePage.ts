@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { UpdatePageUseCase } from '~/application/useCases/page';
+import { Page } from '~/domain/Page';
 import { User } from '~/domain/User';
 import { PageRepository } from '~/infrastructure/repositories/PageRepository';
 import { logger } from '~/utils/logger';
@@ -18,8 +19,12 @@ export const updatePage = async (
     return res.status(400);
   }
 
+  const newObject: Partial<Page> = {
+    isRead: req.body.isRead,
+  };
+
   try {
-    const page = await updatePageUseCase.execute(user.id, pageId, req.body);
+    const page = await updatePageUseCase.execute(user.id, pageId, newObject);
     return res.status(200).json({ page });
   } catch (error) {
     logger(error, 'error');
