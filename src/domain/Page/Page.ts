@@ -43,6 +43,7 @@ export class Page {
   isDeleted: boolean;
   isRead?: boolean;
   createdUser: string;
+  magazineId: string;
   createdAt: Date;
   updatedAt: Date;
   constructor(init: Page) {
@@ -57,11 +58,14 @@ export class Page {
     this.isDeleted = init.isDeleted;
     this.isRead = init.isRead;
     this.createdUser = init.createdUser;
+    this.magazineId = init.magazineId;
     this.createdAt = init.createdAt;
     this.updatedAt = init.updatedAt;
   }
 
-  public static create(params: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) {
+  public static create(
+    params: Omit<Page, 'id' | 'createdAt' | 'updatedAt' | 'magazineId'>,
+  ) {
     return new Page({
       // 本来生成する場所はdomainに書くべきではない
       id: new ObjectId().toString(),
@@ -73,8 +77,9 @@ export class Page {
       body: params.body,
       siteName: params.siteName,
       isDeleted: params.isDeleted,
-      isRead: params.isRead,
+      isRead: false,
       createdUser: params.createdUser,
+      magazineId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
