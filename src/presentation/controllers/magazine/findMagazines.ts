@@ -53,11 +53,11 @@ export const findMagazines = async (
   });
 
   try {
-    const paginationMagazine = await findMagazinesByUserIdUseCase.execute(
+    const magazinePagination = await findMagazinesByUserIdUseCase.execute(
       query,
       options,
     );
-    return res.status(200).json({ paginationMagazine });
+    return res.status(200).json({ magazinePagination });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
