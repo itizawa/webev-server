@@ -25,7 +25,7 @@ export class OgpAdapter implements IOgpAdapter {
       description: $("meta[property='og:description']").attr('content'),
       title: $("meta[property='og:title']").attr('content'),
       siteName: $("meta[property='og:site_name']").attr('content'),
-      body: data.content,
+      body: data?.content,
     };
   }
 }
