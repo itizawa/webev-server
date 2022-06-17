@@ -3,7 +3,7 @@ import { IMagazineRepository } from './IMagazineRepository';
 
 export class MockMagazineRepository implements IMagazineRepository {
   magazines: Magazine[];
-  constructor(magazines: Magazine[]) {
+  constructor(magazines: Magazine[] = []) {
     this.magazines = magazines;
   }
 
