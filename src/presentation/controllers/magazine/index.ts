@@ -1,0 +1,1 @@
+export { createMagazine } from './createMagazine';
