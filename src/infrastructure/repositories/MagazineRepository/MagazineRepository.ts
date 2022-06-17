@@ -57,18 +57,18 @@ export class MagazineRepository implements IMagazineRepository {
       ) as MagazineRepository['MagazineModel']);
   }
 
-  // private convert(magazine: MagazineForDB): Magazine {
-  //   return new Magazine({
-  //     id: magazine._id.toString(),
-  //     name: magazine.name,
-  //     description: magazine.description,
-  //     isDeleted: magazine.isDeleted,
-  //     isPublic: magazine.isPublic,
-  //     createdUserId: magazine.createdUserId.toString(),
-  //     createdAt: magazine.createdAt,
-  //     updatedAt: magazine.updatedAt,
-  //   });
-  // }
+  private convert(magazine: MagazineForDB): Magazine {
+    return new Magazine({
+      id: magazine._id.toString(),
+      name: magazine.name,
+      description: magazine.description,
+      isDeleted: magazine.isDeleted,
+      isPublic: magazine.isPublic,
+      createdUserId: magazine.createdUserId.toString(),
+      createdAt: magazine.createdAt,
+      updatedAt: magazine.updatedAt,
+    });
+  }
 
   private convertToDB(data: Magazine): MagazineForDB {
     return {
@@ -90,5 +90,20 @@ export class MagazineRepository implements IMagazineRepository {
     return this.convertFromDB(
       await this.MagazineModel.create(this.convertToDB(magazine)),
     );
+  }
+
+  async update(
+    id: string,
+    newObject: Partial<Magazine>,
+  ): Promise<Magazine | null> {
+    const page = await this.MagazineModel.findByIdAndUpdate(id, newObject, {
+      new: true,
+    });
+
+    if (!page) {
+      return null;
+    }
+
+    return this.convert(page);
   }
 }
