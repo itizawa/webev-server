@@ -1,4 +1,6 @@
+import { FilterQuery } from 'mongoose';
 import { Magazine } from '~/domain/Magazine';
+import { PaginationOptions, PaginationResult } from '~/domain/shared';
 import { IMagazineRepository } from './IMagazineRepository';
 
 export class MockMagazineRepository implements IMagazineRepository {
@@ -11,6 +13,21 @@ export class MockMagazineRepository implements IMagazineRepository {
     this.magazines.push(magazine);
 
     return magazine;
+  }
+
+  async findMagazines(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    query: FilterQuery<Magazine>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    option: PaginationOptions,
+  ): Promise<PaginationResult<Magazine>> {
+    return new PaginationResult({
+      docs: this.magazines,
+      hasNextPage: true,
+      totalPages: 1,
+      totalDocs: 100,
+      limit: 1,
+    });
   }
 
   async update(id: string, newObject: Partial<Magazine>): Promise<Magazine> {
