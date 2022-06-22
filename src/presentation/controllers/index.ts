@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { loginRequired } from '../middlewares';
-import { createMagazine } from './magazine';
+import { createMagazine, updateMagazine } from './magazine';
 
 import { getOgps } from './ogp';
 import {
@@ -15,6 +15,7 @@ import { getCurrentUser, getUserPagesCount } from './user';
 export const setupExpressRoutes = (express: express.Express): void => {
   // magazines
   express.post('/api/v1/magazines', createMagazine);
+  express.put('/api/v1/magazines/:id', updateMagazine);
 
   // ogps
   express.get('/api/v1/ogps', getOgps);
