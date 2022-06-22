@@ -9,14 +9,16 @@ const findPagesByUserIdUseCase = new FindPageByUserIdUseCase(
 );
 
 export const findPage = async (
-  req: Request<{ pageId: string }> & { user: User },
+  req: Request<{ id: string }> & { user: User },
   res: Response,
 ) => {
   const { user } = req;
-  const { pageId } = req.params;
+  const { id: pageId } = req.params;
 
   if (typeof pageId !== 'string') {
-    return res.status(400).json({ message: 'urlはstringである必要があります' });
+    return res
+      .status(400)
+      .json({ message: 'pageIdはstringである必要があります' });
   }
 
   try {
