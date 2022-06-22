@@ -5,7 +5,9 @@ import { escapeRegExp } from 'lodash';
 import { Magazine } from '~/domain/Magazine';
 import { PaginationOptions } from '~/domain/shared';
 import { User } from '~/domain/User';
+
 import { MagazineRepository } from '~/infrastructure/repositories/MagazineRepository';
+import { FindMagazinesByUserIdUseCase } from '~/application/useCases/Magazine';
 
 const findMagazinesByUserIdUseCase = new FindMagazinesByUserIdUseCase(
   new MagazineRepository(),
