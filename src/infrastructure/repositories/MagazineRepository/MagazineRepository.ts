@@ -11,7 +11,7 @@ import {
 import paginate from 'mongoose-paginate-v2';
 import { Magazine } from '~/domain/Magazine';
 
-import { PaginationResult } from '~/domain/shared';
+import { PaginationOptions, PaginationResult } from '~/domain/shared';
 import { IMagazineRepository } from './IMagazineRepository';
 
 const MagazineSchema: Schema = new Schema(
@@ -90,6 +90,19 @@ export class MagazineRepository implements IMagazineRepository {
     return this.convertFromDB(
       await this.MagazineModel.create(this.convertToDB(magazine)),
     );
+  }
+
+  async findMagazines(
+    query: FilterQuery<Magazine>,
+    option: PaginationOptions,
+  ): Promise<PaginationResult<Magazine>> {
+    const result = await this.MagazineModel.paginate(query, option);
+    return {
+      ...result,
+      docs: result.docs.map((doc: MagazineForDB) => {
+        return this.convert(doc);
+      }),
+    };
   }
 
   async update(
