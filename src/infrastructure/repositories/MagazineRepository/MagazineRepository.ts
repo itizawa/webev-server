@@ -11,7 +11,7 @@ import {
 import paginate from 'mongoose-paginate-v2';
 import { Magazine } from '~/domain/Magazine';
 
-import { PaginationResult } from '~/domain/shared';
+import { PaginationOptions, PaginationResult } from '~/domain/shared';
 import { IMagazineRepository } from './IMagazineRepository';
 
 const MagazineSchema: Schema = new Schema(
@@ -57,18 +57,18 @@ export class MagazineRepository implements IMagazineRepository {
       ) as MagazineRepository['MagazineModel']);
   }
 
-  // private convert(magazine: MagazineForDB): Magazine {
-  //   return new Magazine({
-  //     id: magazine._id.toString(),
-  //     name: magazine.name,
-  //     description: magazine.description,
-  //     isDeleted: magazine.isDeleted,
-  //     isPublic: magazine.isPublic,
-  //     createdUserId: magazine.createdUserId.toString(),
-  //     createdAt: magazine.createdAt,
-  //     updatedAt: magazine.updatedAt,
-  //   });
-  // }
+  private convert(magazine: MagazineForDB): Magazine {
+    return new Magazine({
+      id: magazine._id.toString(),
+      name: magazine.name,
+      description: magazine.description,
+      isDeleted: magazine.isDeleted,
+      isPublic: magazine.isPublic,
+      createdUserId: magazine.createdUserId.toString(),
+      createdAt: magazine.createdAt,
+      updatedAt: magazine.updatedAt,
+    });
+  }
 
   private convertToDB(data: Magazine): MagazineForDB {
     return {
@@ -90,5 +90,33 @@ export class MagazineRepository implements IMagazineRepository {
     return this.convertFromDB(
       await this.MagazineModel.create(this.convertToDB(magazine)),
     );
+  }
+
+  async findMagazines(
+    query: FilterQuery<Magazine>,
+    option: PaginationOptions,
+  ): Promise<PaginationResult<Magazine>> {
+    const result = await this.MagazineModel.paginate(query, option);
+    return {
+      ...result,
+      docs: result.docs.map((doc: MagazineForDB) => {
+        return this.convert(doc);
+      }),
+    };
+  }
+
+  async update(
+    id: string,
+    newObject: Partial<Magazine>,
+  ): Promise<Magazine | null> {
+    const page = await this.MagazineModel.findByIdAndUpdate(id, newObject, {
+      new: true,
+    });
+
+    if (!page) {
+      return null;
+    }
+
+    return this.convert(page);
   }
 }

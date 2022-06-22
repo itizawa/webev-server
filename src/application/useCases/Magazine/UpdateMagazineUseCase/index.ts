@@ -1,0 +1,1 @@
+export { UpdateMagazineUseCase } from './UpdateMagazineUseCase';
