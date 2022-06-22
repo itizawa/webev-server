@@ -7,6 +7,7 @@ import { getOgps } from './ogp';
 import {
   countAllPages,
   deletePageById,
+  findPage,
   findPages,
   postPageByUrl,
 } from './page';
@@ -24,6 +25,7 @@ export const setupExpressRoutes = (express: express.Express): void => {
 
   // pages
   express.post('/api/v1/pages', loginRequired, postPageByUrl);
+  express.get('/api/v1/pages/:id', loginRequired, findPage);
   express.delete('/api/v1/pages/:id', loginRequired, deletePageById);
   express.put('/api/v1/pages/:pageId', loginRequired, updatePage);
   express.get('/api/v1/pages/all-count', countAllPages);
