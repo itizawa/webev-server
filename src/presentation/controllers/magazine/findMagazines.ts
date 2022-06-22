@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { FilterQuery } from 'mongoose';
 import { escapeRegExp } from 'lodash';
 
-import { FindMagazinesByUserIdUseCase } from '~/application/useCases/magazine';
 import { Magazine } from '~/domain/Magazine';
 import { PaginationOptions } from '~/domain/shared';
 import { User } from '~/domain/User';
