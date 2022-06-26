@@ -39,7 +39,7 @@ type PageMagazineRelationForDB = Omit<PageMagazineRelation, 'id'> & {
   _id: string;
 };
 
-export class PageMagazineRelationRepositoryRepository
+export class PageMagazineRelationRepository
   implements IPageMagazineRelationRepository
 {
   PageMagazineRelationModel: Model<PageMagazineRelation & Document> & {
@@ -52,11 +52,11 @@ export class PageMagazineRelationRepositoryRepository
   constructor() {
     PageMagazineRelationRepositorySchema.plugin(paginate);
     this.PageMagazineRelationModel =
-      (models.PageMagazineRelationRepository as PageMagazineRelationRepositoryRepository['PageMagazineRelationModel']) ||
+      (models.PageMagazineRelationRepository as PageMagazineRelationRepository['PageMagazineRelationModel']) ||
       (model<PageMagazineRelation & Document>(
         'PageMagazineRelationRepository',
         PageMagazineRelationRepositorySchema,
-      ) as PageMagazineRelationRepositoryRepository['PageMagazineRelationModel']);
+      ) as PageMagazineRelationRepository['PageMagazineRelationModel']);
   }
 
   private convertToDB(data: PageMagazineRelation): PageMagazineRelationForDB {
