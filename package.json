@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "article-parser": "6.0.1",
-    "cheerio": "1.0.0-rc.11",
+    "cheerio": "1.0.0-rc.12",
     "connect-mongo": "4.6.0",
     "cors": "2.8.5",
     "env-cmd": "10.1.0",
