@@ -1,2 +1,2 @@
 export { IPageMagazineRelationRepository } from './IPageMagazineRelationRepository';
-export { PageMagazineRelationRepositoryRepository } from './PageMagazineRelationRepository';
+export { PageMagazineRelationRepository } from './PageMagazineRelationRepository';
