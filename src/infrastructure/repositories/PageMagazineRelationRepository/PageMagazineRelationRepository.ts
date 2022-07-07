@@ -77,13 +77,18 @@ export class PageMagazineRelationRepository
     });
   }
 
-  async create(
-    pageMagazineRelation: PageMagazineRelation,
-  ): Promise<PageMagazineRelation> {
-    return this.convertFromDB(
-      await this.PageMagazineRelationModel.create(
-        this.convertToDB(pageMagazineRelation),
-      ),
+  async deleteMany(query: FilterQuery<PageMagazineRelation>): Promise<void> {
+    await this.PageMagazineRelationModel.deleteMany(query);
+  }
+
+  async update(pageMagazineRelation: PageMagazineRelation): Promise<void> {
+    await this.PageMagazineRelationModel.updateOne(
+      {
+        pageId: pageMagazineRelation.pageId,
+        magazineId: pageMagazineRelation.magazineId,
+      },
+      this.convertToDB(pageMagazineRelation),
+      { upsert: true },
     );
   }
 
