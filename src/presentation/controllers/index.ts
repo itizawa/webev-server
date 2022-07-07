@@ -13,7 +13,7 @@ import {
   postPageByUrl,
 } from './page';
 import { updatePage } from './page/updatePage';
-import { createPageMagazineRelation } from './pageMagazineRelation/createPageMagazineRelation';
+import { createPageMagazineRelation, findPageMagazineRelations } from './pageMagazineRelation';
 import { getCurrentUser, getUserPagesCount } from './user';
 
 export const setupExpressRoutes = (express: express.Express): void => {
@@ -35,6 +35,7 @@ export const setupExpressRoutes = (express: express.Express): void => {
 
   // pageMagazineRelations
   express.post('/api/v1/page-magazine-relations', loginRequired, createPageMagazineRelation);
+  express.get('/api/v1/page-magazine-relations/list', loginRequired, findPageMagazineRelations);
 
   // users
   express.get('/api/v1/users/me', getCurrentUser);
