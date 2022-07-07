@@ -68,8 +68,10 @@ export class PageMagazineRelationRepository
 
   private convertFromDB(data: PageMagazineRelationForDB): PageMagazineRelation {
     return new PageMagazineRelation({
-      ...data,
       id: data._id.toString(),
+      pageId: data.pageId.toString(),
+      magazineId: data.pageId.toString(),
+      createdUserId: data.pageId.toString(),
       createdAt: new Date(data.createdAt),
       updatedAt: new Date(data.updatedAt),
     });
