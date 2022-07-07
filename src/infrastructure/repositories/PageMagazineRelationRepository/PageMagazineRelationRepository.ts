@@ -84,4 +84,12 @@ export class PageMagazineRelationRepository
       ),
     );
   }
+
+  async findByPageId(id: string): Promise<PageMagazineRelation[]> {
+    return await this.PageMagazineRelationModel.find({ pageId: id });
+  }
+
+  async findByMagazineId(id: string): Promise<PageMagazineRelation[]> {
+    return await this.PageMagazineRelationModel.find({ magazineId: id });
+  }
 }
