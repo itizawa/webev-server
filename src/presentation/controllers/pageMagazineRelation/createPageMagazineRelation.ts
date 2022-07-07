@@ -13,20 +13,20 @@ export const createPageMagazineRelation = async (
   res: Response,
 ) => {
   const { user } = req;
-  const { pageId, magazineId } = req.body;
 
-  if (typeof pageId !== 'string' || typeof magazineId !== 'string') {
+  const { pageId, magazineIds } = req.body;
+
+  if (typeof pageId !== 'string') {
     return res.status(400).json({ message: '入力値が不正です' });
   }
 
   try {
-    const pageMagazineRelation =
-      await createPageMagazineRelationUseCase.execute({
-        pageId,
-        magazineId,
-        userId: user.id,
-      });
-    return res.status(200).json({ pageMagazineRelation });
+    await createPageMagazineRelationUseCase.execute({
+      pageId,
+      magazineIds,
+      userId: user.id,
+    });
+    return res.status(200);
   } catch (error) {
     logger(error, 'error');
     return res.status(500).json({ message: error.message });

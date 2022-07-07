@@ -8,19 +8,24 @@ export class CreatePageMagazineRelationUseCase {
 
   async execute({
     pageId,
-    magazineId,
+    magazineIds,
     userId,
   }: {
     pageId: string;
-    magazineId: string;
+    magazineIds: string[];
     userId: string;
-  }): Promise<PageMagazineRelation> {
-    return await this.pageMagazineRelationRepository.create(
-      PageMagazineRelation.create({
-        magazineId,
-        pageId,
-        createdUserId: userId,
-      }),
-    );
+  }): Promise<void> {
+    // TODO: transaction
+    const asyncJobs = magazineIds.map((magazineId) => {
+      return this.pageMagazineRelationRepository.create(
+        PageMagazineRelation.create({
+          magazineId,
+          pageId,
+          createdUserId: userId,
+        }),
+      );
+    });
+
+    await Promise.all(asyncJobs);
   }
 }
