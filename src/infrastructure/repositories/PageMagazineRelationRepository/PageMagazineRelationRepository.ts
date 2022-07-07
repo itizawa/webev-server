@@ -11,7 +11,7 @@ import {
 import paginate from 'mongoose-paginate-v2';
 
 import { PageMagazineRelation } from '~/domain/PageMagazineRelation';
-import { PaginationResult } from '~/domain/shared';
+import { PaginationOptions, PaginationResult } from '~/domain/shared';
 import { IPageMagazineRelationRepository } from './IPageMagazineRelationRepository';
 
 const PageMagazineRelationRepositorySchema: Schema = new Schema(
@@ -85,11 +85,16 @@ export class PageMagazineRelationRepository
     );
   }
 
-  async findByPageId(id: string): Promise<PageMagazineRelation[]> {
-    return await this.PageMagazineRelationModel.find({ pageId: id });
-  }
-
-  async findByMagazineId(id: string): Promise<PageMagazineRelation[]> {
-    return await this.PageMagazineRelationModel.find({ magazineId: id });
+  async find(
+    query: FilterQuery<PageMagazineRelation>,
+    option: PaginationOptions,
+  ): Promise<PaginationResult<PageMagazineRelation>> {
+    const result = await this.PageMagazineRelationModel.paginate(query, option);
+    return {
+      ...result,
+      docs: result.docs.map((doc: PageMagazineRelationForDB) => {
+        return this.convertFromDB(doc);
+      }),
+    };
   }
 }

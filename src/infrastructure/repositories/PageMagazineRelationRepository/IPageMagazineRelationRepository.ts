@@ -1,7 +1,11 @@
+import { FilterQuery } from 'mongoose';
 import { PageMagazineRelation } from '~/domain/PageMagazineRelation';
+import { PaginationOptions, PaginationResult } from '~/domain/shared';
 
 export interface IPageMagazineRelationRepository {
   create(pages: PageMagazineRelation): Promise<PageMagazineRelation>;
-  findByPageId(id: string): Promise<PageMagazineRelation[]>;
-  findByMagazineId(id: string): Promise<PageMagazineRelation[]>;
+  find(
+    query: FilterQuery<PageMagazineRelation>,
+    option: PaginationOptions,
+  ): Promise<PaginationResult<PageMagazineRelation>>;
 }
