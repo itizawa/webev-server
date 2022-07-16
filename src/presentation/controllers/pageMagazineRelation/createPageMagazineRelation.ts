@@ -26,7 +26,7 @@ export const createPageMagazineRelation = async (
       magazineIds,
       userId: user.id,
     });
-    return res.status(200);
+    return res.status(200).json();
   } catch (error) {
     logger(error, 'error');
     return res.status(500).json({ message: error.message });

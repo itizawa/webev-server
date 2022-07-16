@@ -49,7 +49,7 @@ export class CreatePageMagazineRelationUseCase {
 
     if (!isEmpty(idsForDelete)) {
       await this.pageMagazineRelationRepository.deleteMany({
-        _id: { $in: idsForDelete },
+        magazineId: { $in: idsForDelete },
       });
     }
 
