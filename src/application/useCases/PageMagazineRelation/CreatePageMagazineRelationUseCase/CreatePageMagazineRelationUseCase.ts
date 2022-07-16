@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { PageMagazineRelation } from '~/domain/PageMagazineRelation';
 import { IPageMagazineRelationRepository } from '~/infrastructure/repositories/PageMagazineRelationRepository';
 
@@ -23,13 +24,21 @@ export class CreatePageMagazineRelationUseCase {
       },
     );
 
-    const idsForDelete = magazineRelations.docs.flatMap((magazineRelation) =>
-      magazineIds.includes(magazineRelation.id) ? [] : magazineRelation.id,
+    const existedMagazineIds = magazineRelations.docs.map(
+      (doc) => doc.magazineId,
+    );
+
+    const idsForDelete = existedMagazineIds.filter(
+      (v) => !magazineIds.includes(v),
+    );
+
+    const idsForCreate = magazineIds.filter(
+      (v) => !existedMagazineIds.includes(v),
     );
 
     // TODO: transaction
-    const asyncJobs = magazineIds.map((magazineId) => {
-      return this.pageMagazineRelationRepository.update(
+    const asyncJobs = idsForCreate.map((magazineId) => {
+      return this.pageMagazineRelationRepository.create(
         PageMagazineRelation.create({
           magazineId,
           pageId,
@@ -38,9 +47,11 @@ export class CreatePageMagazineRelationUseCase {
       );
     });
 
-    await this.pageMagazineRelationRepository.deleteMany({
-      _id: { $in: idsForDelete },
-    });
+    if (!isEmpty(idsForDelete)) {
+      await this.pageMagazineRelationRepository.deleteMany({
+        _id: { $in: idsForDelete },
+      });
+    }
 
     await Promise.all(asyncJobs);
   }

@@ -3,7 +3,7 @@ import { PageMagazineRelation } from '~/domain/PageMagazineRelation';
 import { PaginationOptions, PaginationResult } from '~/domain/shared';
 
 export interface IPageMagazineRelationRepository {
-  update(pageMagazineRelation: PageMagazineRelation): Promise<void>;
+  create(data: PageMagazineRelation): Promise<PageMagazineRelation>;
   deleteMany(query: FilterQuery<PageMagazineRelation>): Promise<void>;
   find(
     query: FilterQuery<PageMagazineRelation>,
