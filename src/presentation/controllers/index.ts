@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as express from 'express';
 import { loginRequired } from '../middlewares';
 import { createMagazine, updateMagazine } from './magazine';
@@ -12,6 +13,7 @@ import {
   postPageByUrl,
 } from './page';
 import { updatePage } from './page/updatePage';
+import { createPageMagazineRelation, findPageMagazineRelations } from './pageMagazineRelation';
 import { getCurrentUser, getUserPagesCount } from './user';
 
 export const setupExpressRoutes = (express: express.Express): void => {
@@ -30,6 +32,10 @@ export const setupExpressRoutes = (express: express.Express): void => {
   express.get('/api/v1/pages/list', loginRequired, findPages);
   express.put('/api/v1/pages/:pageId', loginRequired, updatePage);
   express.get('/api/v1/pages/:id', loginRequired, findPage);
+
+  // pageMagazineRelations
+  express.post('/api/v1/page-magazine-relations', loginRequired, createPageMagazineRelation);
+  express.get('/api/v1/page-magazine-relations/list', loginRequired, findPageMagazineRelations);
 
   // users
   express.get('/api/v1/users/me', getCurrentUser);
