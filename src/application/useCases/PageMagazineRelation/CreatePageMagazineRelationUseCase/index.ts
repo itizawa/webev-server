@@ -1,0 +1,1 @@
+export { CreatePageMagazineRelationUseCase } from './CreatePageMagazineRelationUseCase';
