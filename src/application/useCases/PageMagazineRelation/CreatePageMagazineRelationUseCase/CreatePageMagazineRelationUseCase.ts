@@ -15,8 +15,6 @@ export class CreatePageMagazineRelationUseCase {
     magazineIds: string[];
     userId: string;
   }): Promise<void> {
-    console.log(pageId, userId);
-
     const magazineRelations = await this.pageMagazineRelationRepository.find(
       { pageId, createdUserId: userId },
       {
@@ -24,7 +22,6 @@ export class CreatePageMagazineRelationUseCase {
         limit: 100,
       },
     );
-    console.log(magazineRelations);
 
     const idsForDelete = magazineRelations.docs.flatMap((magazineRelation) =>
       magazineIds.includes(magazineRelation.id) ? [] : magazineRelation.id,

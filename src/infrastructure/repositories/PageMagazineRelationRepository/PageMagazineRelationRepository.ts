@@ -70,8 +70,8 @@ export class PageMagazineRelationRepository
     return new PageMagazineRelation({
       id: data._id.toString(),
       pageId: data.pageId.toString(),
-      magazineId: data.pageId.toString(),
-      createdUserId: data.pageId.toString(),
+      magazineId: data.magazineId.toString(),
+      createdUserId: data.createdUserId.toString(),
       createdAt: new Date(data.createdAt),
       updatedAt: new Date(data.updatedAt),
     });
