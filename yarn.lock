@@ -3359,10 +3359,10 @@ mongoose-paginate-v2@1.7.0:
   resolved "https://registry.yarnpkg.com/mongoose-paginate-v2/-/mongoose-paginate-v2-1.7.0.tgz#989a97160b5aa18b4bb16fb9ac3a80c6c33837ec"
   integrity sha512-r9bns1sMWRl0QO3YXVZ/uGOL/CYcDXTmapGHlddIgzbfOhVxUWKHKItwJO8rZICF1ooOukLQv8qQLVTc3qSLpQ==
 
-mongoose@6.5.2:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.5.2.tgz#630ae67c4d2576635ba1f859b2840560b27b7775"
-  integrity sha512-3CFDrSLtK2qjM1pZeZpLTUyqPRkc11Iuh74ZrwS4IwEJ3K2PqGnmyPLw7ex4Kzu37ujIMp3MAuiBlUjfrcb6hw==
+mongoose@6.5.5:
+  version "6.5.5"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.5.5.tgz#750ced2a6939312e4ab6fc56afbf291977b92512"
+  integrity sha512-sfRRRmkDAPV1H8Qy+zbCEVo8E2jLENF1GA5oaNOrDe1pNTqBtudbnZETOG+5XgGeH52kpPLNzcTCSOijcy505g==
   dependencies:
     bson "^4.6.5"
     kareem "2.4.1"
