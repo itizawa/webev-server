@@ -30,7 +30,7 @@
     "passport": "0.6.0",
     "passport-google-oauth": "2.0.0",
     "pino": "8.4.2",
-    "pino-pretty": "8.1.0",
+    "pino-pretty": "9.4.0",
     "superagent": "8.0.0",
     "swagger-jsdoc": "6.2.5",
     "swagger-ui-express": "4.5.0"
