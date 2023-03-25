@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "article-parser": "7.0.1",
+    "article-parser": "7.0.3",
     "cheerio": "1.0.0-rc.12",
     "connect-mongo": "4.6.0",
     "cors": "2.8.5",
